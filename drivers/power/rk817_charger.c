@@ -965,6 +965,28 @@ static int rk817_charge_init_dc(struct rk817_charger *charge)
 	unsigned long irq_flags;
 	unsigned int dc_det_irq;
 
+    printk("%s wincao 111 init charge led workqueue ...\n", __func__);
+#if defined(CONFIG_ARCH_ROCKCHIP_ODROIDGOA)
+	if (charge->pdata->chg_led_pin) {
+		ret = devm_gpio_request(charge->dev,
+					charge->pdata->chg_led_pin,
+					"rk817_chg_led");
+		if (ret < 0)
+			dev_err(charge->dev, "failed to request gpio %d\n",
+				charge->pdata->chg_led_pin);
+		else
+			gpio_direction_output(charge->pdata->chg_led_pin,
+					     !charge->pdata->chg_led_on);
+	}
+
+	charge->led_wq = alloc_ordered_workqueue("%s",
+				WQ_MEM_RECLAIM | WQ_FREEZABLE,
+				"rk817-led-wq");
+	INIT_DELAYED_WORK(&charge->led_work, rk817_charge_led_worker);
+
+	queue_delayed_work(charge->led_wq, &charge->led_work,
+		msecs_to_jiffies(500));
+#endif
 	charge->dc_charger_wq = alloc_ordered_workqueue("%s",
 				WQ_MEM_RECLAIM | WQ_FREEZABLE,
 				"rk817-dc-wq");
@@ -988,8 +1010,8 @@ static int rk817_charge_init_dc(struct rk817_charger *charge)
 		dev_err(charge->dev, "failed to set gpio input\n");
 		return ret;
 	}
-
-#if defined(CONFIG_ARCH_ROCKCHIP_ODROIDGOA)
+    printk("%s wincao 222 init charge led workqueue ...\n", __func__);
+#if 0//defined(CONFIG_ARCH_ROCKCHIP_ODROIDGOA)
 	if (charge->pdata->chg_led_pin) {
 		ret = devm_gpio_request(charge->dev,
 					charge->pdata->chg_led_pin,
@@ -1437,6 +1459,21 @@ static int rk817_charge_parse_dt(struct rk817_charger *charge)
 	charge->res_div = (charge->pdata->sample_res == SAMPLE_RES_10MR) ?
 		       SAMPLE_RES_DIV1 : SAMPLE_RES_DIV2;
 
+#if defined(CONFIG_ARCH_ROCKCHIP_ODROIDGOA)
+		if (!of_find_property(np, "chg_led_gpio", &ret)) {
+			printk("not support charge led\n");
+			pdata->chg_led_pin = 0;
+		} else {
+			pdata->chg_led_pin = of_get_named_gpio_flags(np,
+							"chg_led_gpio",
+							0, &flags);
+			if (gpio_is_valid(pdata->chg_led_pin)) {
+				printk("support charge led\n");
+				pdata->chg_led_on =
+					(flags & OF_GPIO_ACTIVE_LOW) ? 0 : 1;
+			}
+		}
+#endif
 	if (!of_find_property(np, "dc_det_gpio", &ret)) {
 		pdata->support_dc_det = false;
 		DBG("not support dc\n");
@@ -1452,7 +1489,7 @@ static int rk817_charge_parse_dt(struct rk817_charger *charge)
 			dev_err(dev, "invalid dc det gpio!\n");
 			return -EINVAL;
 		}
-#if defined(CONFIG_ARCH_ROCKCHIP_ODROIDGOA)
+#if 0//defined(CONFIG_ARCH_ROCKCHIP_ODROIDGOA)
 		if (!of_find_property(np, "chg_led_gpio", &ret)) {
 			DBG("not support charge led\n");
 			pdata->chg_led_pin = 0;
@@ -1476,11 +1513,12 @@ static int rk817_charge_parse_dt(struct rk817_charger *charge)
 	    "sample_res:%d\n"
 	    "extcon:%d\n"
 	    "virtual_power:%d\n"
-	    "power_dc2otg:%d\n",
+	    "power_dc2otg:%d\n"
+	    "charge_led:%d\n",
 	    pdata->max_input_current, pdata->min_input_voltage,
 	    pdata->max_chrg_current,  pdata->max_chrg_voltage,
 	    pdata->sample_res, pdata->extcon,
-	    pdata->virtual_power, pdata->power_dc2otg);
+	    pdata->virtual_power, pdata->power_dc2otg, pdata->chg_led_on);
 
 	return 0;
 }
