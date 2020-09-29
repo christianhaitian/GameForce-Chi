@@ -18,12 +18,13 @@
 
 	chosen {
                 bootargs = "";
-        };
+    };
+
 	adc-keys {
-		compatible = "volume-keys";
-		//io-channels = <&saradc 2>;
-		//io-channel-names = "buttons";
-		//poll-interval = <100>;
+		compatible = "adc-keys";
+		io-channels = <&saradc 2>;
+		io-channel-names = "buttons";
+		poll-interval = <100>;
 		keyup-threshold-microvolt = <1800000>;
 
 		vol-down-key {
@@ -99,8 +100,8 @@
         pinctrl-0 = <&btn_pins>;
 
 		/* JOY_X, JOY_Y Channel define */
-		io-channel-names = "joy_x", "joy_y", "volume-buttons";
-		io-channels = <&saradc 0>, <&saradc 1>, <&saradc 2>;
+		io-channel-names = "joy_x", "joy_y";
+		io-channels = <&saradc 0>, <&saradc 1>;
 
 		/* adc channel count */
 		button-adc-count = <2>;

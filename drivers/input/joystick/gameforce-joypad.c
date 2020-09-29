@@ -38,7 +38,7 @@
 #include <linux/of_gpio.h>
 
 #define RIGHT_ADC_JOYSTICK
-#define VOLUME_ADC_KEYS
+//#define VOLUME_ADC_KEYS
 #define	VIBRATORS_FF
 
 #ifdef RIGHT_ADC_JOYSTICK
