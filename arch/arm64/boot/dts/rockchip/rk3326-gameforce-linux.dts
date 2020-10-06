@@ -934,6 +934,7 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <&i2s1_2ch_mclk &spk_ctl>;
 			spk-ctl-gpios = <&gpio2 RK_PB5 GPIO_ACTIVE_HIGH>;
+			use-ext-amplifier;
 			hp-volume = <3>;//255-0
 			spk-volume = <3>;//255-0
 			status = "okay";

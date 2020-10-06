@@ -21,7 +21,7 @@
 #include <linux/export.h>
 #include <trace/events/asoc.h>
 
-#define AW8733_WORKMODE 4 //mode 1 2 3 4
+//#define AW8733_WORKMODE 4 //mode 1 2 3 4
 /**
  * snd_soc_card_jack_new - Create a new jack
  * @card:  ASoC card
@@ -80,7 +80,7 @@ void snd_soc_jack_report(struct snd_soc_jack *jack, int status, int mask)
 	struct snd_soc_jack_pin *pin;
 	unsigned int sync = 0;
 	int enable;
-    int i;
+    //int i;
 
 	trace_snd_soc_jack_report(jack, mask, status);
 
@@ -118,6 +118,7 @@ void snd_soc_jack_report(struct snd_soc_jack *jack, int status, int mask)
 		snd_soc_dapm_sync(dapm);
 
     printk("%s report hp status = %d\n", __func__, jack->status);
+#if 0
     if (jack->status) {
         printk("%s set mode=%d spk clt %d\n", __func__, AW8733_WORKMODE, jack->status);
         for(i=1; i<AW8733_WORKMODE; i++) {
@@ -133,6 +134,7 @@ void snd_soc_jack_report(struct snd_soc_jack *jack, int status, int mask)
         gpio_set_value(77, 0);//hp detect,close spk
         msleep(2);
     }
+#endif
 
 	snd_jack_report(jack->jack, jack->status);
 
