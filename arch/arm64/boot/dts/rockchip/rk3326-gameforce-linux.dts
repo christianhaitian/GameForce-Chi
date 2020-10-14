@@ -54,9 +54,9 @@
 		pinctrl-0 = <&led_pins>;
 
 		heartbeat {
-			label = "blue:heartbeat";
+			label = "heartbeat";
 			gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_HIGH>;//bluetooth GPIO3_B3
-			linux,default-trigger = "heartbeat";
+			linux,default-trigger = "heartbeat";//heartbeat, rfkill0
 		};
 
         red {
@@ -644,7 +644,7 @@
 		vcc4-supply = <&vccsys>;
 		vcc5-supply = <&vccsys>;
 		vcc6-supply = <&vccsys>;
-		vcc7-supply = <&vccsys>;
+		vcc7-supply = <&vcc_3v0>;
 		vcc8-supply = <&vccsys>;
 		vcc9-supply = <&dcdc_boost>;
 
@@ -704,7 +704,7 @@
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-min-microvolt = <950000>;
-				regulator-max-microvolt = <1150000>;
+				regulator-max-microvolt = <1350000>;
 				regulator-ramp-delay = <6001>;
 				regulator-initial-mode = <0x2>;
 				regulator-name = "vdd_logic";
@@ -738,16 +738,16 @@
 				};
 			};
 
-			vcc_3v3: DCDC_REG4 {
+			vcc_3v0: DCDC_REG4 {
 				regulator-always-on;
 				regulator-boot-on;
-				regulator-min-microvolt = <3300000>;
-				regulator-max-microvolt = <3300000>;
+				regulator-min-microvolt = <3000000>;
+				regulator-max-microvolt = <3000000>;
 				regulator-initial-mode = <0x2>;
-				regulator-name = "vcc_3v3";
+				regulator-name = "vcc_3v0";
 				regulator-state-mem {
 					regulator-off-in-suspend;
-					regulator-suspend-microvolt = <3300000>;
+					regulator-suspend-microvolt = <3000000>;
 				};
 			};
 
@@ -788,16 +788,16 @@
 				};
 			};
 
-			vcc3v3_pmu: LDO_REG4 {
+			vcc3v0_pmu: LDO_REG4 {
 				regulator-always-on;
 				regulator-boot-on;
-				regulator-min-microvolt = <3300000>;
-				regulator-max-microvolt = <3300000>;
+				regulator-min-microvolt = <3000000>;
+				regulator-max-microvolt = <3000000>;
 
-				regulator-name = "vcc3v3_pmu";
+				regulator-name = "vcc3v0_pmu";
 				regulator-state-mem {
 					regulator-on-in-suspend;
-					regulator-suspend-microvolt = <3300000>;
+					regulator-suspend-microvolt = <3000000>;
 
 				};
 			};
@@ -828,7 +828,7 @@
 				};
 			};
 
-			/* Rev 0.2 LCD Backlight Power */
+			/* Rev 0.2 LCD Backlight Power not use*/
 			vcc_backlight: LDO_REG7 {
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
@@ -839,7 +839,7 @@
 				};
 			};
 
-			/* Rev 0.2 LCD IO Power */
+			/* Rev 0.2 LCD IO Power not use*/
 			vcc_lcd: LDO_REG8 {
 				regulator-min-microvolt = <2800000>;
 				regulator-max-microvolt = <2800000>;
@@ -850,7 +850,7 @@
 				};
 			};
 
-			/* Rev 1.1 WIFI Power */
+			/* Rev 1.1 WIFI Power not use*/
 			vcc_wifi: LDO_REG9 {
 				regulator-always-on;
 				regulator-boot-on;
@@ -964,17 +964,17 @@
 	status = "okay";
 
 	/* SDIO I/O Voltage */
-	vccio1-supply = <&vcc_3v3>;
+	vccio1-supply = <&vcc3v0_pmu>;
 	/* SDMMC I/O Voltage */
 	vccio2-supply = <&vccio_sd>;
 	/* CAM I/O Voltage */
-	vccio3-supply = <&vcc_3v3>;
+	vccio3-supply = <&vcc_3v0>;
 	/* LVDS/LCDC I/O Voltage */
-	vccio4-supply = <&vcc_3v3>;
+	vccio4-supply = <&vcc_3v0>;
 	/* I2S I/O Voltage */
-	vccio5-supply = <&vcc_3v3>;
+	vccio5-supply = <&vcc_3v0>;
 	/* eMMC I/O Voltage */
-	vccio6-supply = <&vcc_3v3>;
+	vccio6-supply = <&vcc_3v0>;
 };
 
 &isp_mmu {
@@ -998,9 +998,9 @@
 	status = "okay";
 
 	/* PMU I/O Voltage */
-	pmuio1-supply = <&vcc3v3_pmu>;
+	pmuio1-supply = <&vcc1v8_soc>;
 	/* GPIO0_B/GPIO0_C, Flash */
-	pmuio2-supply = <&vcc3v3_pmu>;
+	pmuio2-supply = <&vcc3v0_pmu>;
 };
 
 /* LCD Backlight PWM */
