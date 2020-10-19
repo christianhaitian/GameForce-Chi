@@ -21,20 +21,20 @@
     };
 
 	adc-keys {
-		compatible = "adc-keys";
-		io-channels = <&saradc 2>;
-		io-channel-names = "buttons";
-		poll-interval = <100>;
+		compatible = "volume-keys";
+		//io-channels = <&saradc 2>;
+		//io-channel-names = "buttons";
+		//poll-interval = <100>;
 		keyup-threshold-microvolt = <1800000>;
 
-		vol-down-key {
-			linux,code = <KEY_VOLUMEDOWN>;
+		happy1-key {
+			linux,code = <BTN_TRIGGER_HAPPY1>;
 			label = "volume down";
-			press-threshold-microvolt = <17000>;
+			press-threshold-microvolt = <15000>;
 		};
 
-		vol-up-key {
-			linux,code = <KEY_VOLUMEUP>;
+		happy2-key {
+			linux,code = <BTN_TRIGGER_HAPPY2>;
 			label = "volume up";
 			press-threshold-microvolt = <300000>;
 		};
@@ -100,8 +100,8 @@
         pinctrl-0 = <&btn_pins>;
 
 		/* JOY_X, JOY_Y Channel define */
-		io-channel-names = "joy_x", "joy_y";
-		io-channels = <&saradc 0>, <&saradc 1>;
+		io-channel-names = "joy_x", "joy_y", "volume-buttons";
+		io-channels = <&saradc 0>, <&saradc 1>, <&saradc 2>;
 
 		/* adc channel count */
 		button-adc-count = <2>;
@@ -200,19 +200,17 @@
                 sw9 {
                         gpios = <&gpio2 RK_PA0 GPIO_ACTIVE_LOW>;
                         label = "GPIO BTN-HOME";
-                        linux,code = <BTN_TRIGGER_HAPPY1>; // 0x2c0
+                        linux,code = <BTN_TRIGGER_HAPPY3>; // 0x2c2
                 };
                 sw10 {
                         gpios = <&gpio2 RK_PA3 GPIO_ACTIVE_LOW>;
                         label = "GPIO BTN-SET";
-                        //linux,code = <BTN_TRIGGER_HAPPY2>; //BTN_SELECT 0x13a 0x2c1
-                        linux,code = <BTN_SELECT>; //BTN_SELECT 0x13a 0x2c1
+                        linux,code = <BTN_SELECT>; // 0x13a
                 };
                 sw11 {
                         gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
                         label = "GPIO BTN-START";
-                        //linux,code = <BTN_TRIGGER_HAPPY3>; // BTN_START 0x13b 0x2c2
-                        linux,code = <BTN_START>; // BTN_START 0x13b 0x2c2
+                        linux,code = <BTN_START>; // 0x13b
                 };
                 sw12 {
                         gpios = <&gpio2 RK_PA6 GPIO_ACTIVE_LOW>;
