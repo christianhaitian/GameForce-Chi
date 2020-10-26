@@ -515,7 +515,7 @@ static void joypad_adc_check(struct input_polled_dev *poll_dev)
 
 /*----------------------------------------------------------------------------*/
 #ifdef VOLUME_ADC_KEYS
-static void joypad_vol_check(struct input_polled_dev *poll_dev)
+static int joypad_vol_check(struct input_polled_dev *poll_dev)
 {
 	struct joypad *joypad = poll_dev->private;
 	//struct adc_keys_state *st = dev->private;
@@ -537,6 +537,8 @@ static void joypad_vol_check(struct input_polled_dev *poll_dev)
 		}
 	}
 
+	if (((157<value) && (value< 300)) || (value > 320))
+		return -1;
 	if (abs(joypad->st->keyup_voltage - value) < closest)
 		keycode = 0;
 
@@ -548,6 +550,8 @@ static void joypad_vol_check(struct input_polled_dev *poll_dev)
 
 	input_sync(poll_dev->input);
 	joypad->st->last_key = keycode;
+
+	return 0;
 }
 #endif
 /*----------------------------------------------------------------------------*/
