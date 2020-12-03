@@ -537,7 +537,7 @@ static int joypad_vol_check(struct input_polled_dev *poll_dev)
 		}
 	}
 
-	if (((157<value) && (value< 300)) || (value > 320))
+	if (((157<value) && (value< 300)) || ((value > 320) && (value<1700)))
 		return -1;
 	if (abs(joypad->st->keyup_voltage - value) < closest)
 		keycode = 0;
