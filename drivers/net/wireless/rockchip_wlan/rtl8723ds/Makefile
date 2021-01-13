@@ -1589,6 +1589,7 @@ EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
 # default setting for Power control
 EXTRA_CFLAGS += -DRTW_ENABLE_WIFI_CONTROL_FUNC
 # default setting for Special function
+EXTRA_CFLAGS += -DRTW_P2P_GROUP_INTERFACE=1
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/Rockchip/Rk3188/prebuilts/gcc/linux-x86/arm/arm-eabi-4.6/bin/arm-eabi-
 KSRC := /home/android_sdk/Rockchip/Rk3188/kernel
