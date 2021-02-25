@@ -994,9 +994,9 @@ static int joypad_input_setup(struct device *dev, struct joypad *joypad)
 	input->phys = DRV_NAME"/input0";
 
 	input->id.bustype = BUS_HOST;
-	input->id.vendor  = 0x0001;
-	input->id.product = 0x0001;
-	input->id.version = 0x0101;
+	input->id.vendor  = 0x0003;
+	input->id.product = 0x0003;
+	input->id.version = 0x0302;
 
 	/* IIO ADC key setup (0 mv ~ 1800 mv) * adc->scale */
 	__set_bit(EV_ABS, input->evbit);
