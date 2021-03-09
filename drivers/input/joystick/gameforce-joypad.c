@@ -501,12 +501,12 @@ static void joypad_adc_check(struct input_polled_dev *poll_dev)
 		{
 			// adc-x value is default inverted(h/w)
 			input_report_abs(poll_dev->input,
-				adc->report_type, value * (-1));
+				adc->report_type, value);
 		}
 		else
 		{
 			input_report_abs(poll_dev->input,
-				adc->report_type, value);
+				adc->report_type, value * (-1));
 		}
 		adc->old_value = value;
 	}
