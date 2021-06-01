@@ -351,7 +351,7 @@ config JOYSTICK_ODROIDGO3
 
 config JOYSTICK_GAMEFORCE
 	tristate "gameforce joypad driver"
-	depends on ARCH_ROCKCHIP_ODROIDGO2
+	depends on ARCH_ROCKCHIP_ODROIDGOA
 	help
 	  Made for gameforce-chi.
 endif
